@@ -32,7 +32,35 @@ struct MainView: View {
                         Image(systemName: "trash.square.fill")
                             .resizable()
                             .frame(width: 35, height: 35)
-                            .foregroundColor(.green)
+                            .foregroundColor(.red)
+                    }
+                    .padding(.all, 5)
+                    Spacer()
+                    Button(action: {
+                        callApiPage(page: 10)
+                    }) {
+                        Image(systemName: "10.square.fill")
+                            .resizable()
+                            .frame(width: 35, height: 35)
+                            .foregroundColor(.blue)
+                    }
+                    .padding(.all, 5)
+                    Button(action: {
+                        callApiPage(page: 20)
+                    }) {
+                        Image(systemName: "20.square.fill")
+                            .resizable()
+                            .frame(width: 35, height: 35)
+                            .foregroundColor(.blue)
+                    }
+                    .padding(.all, 5)
+                    Button(action: {
+                        callApiPage(page: 30)
+                    }) {
+                        Image(systemName: "30.square.fill")
+                            .resizable()
+                            .frame(width: 35, height: 35)
+                            .foregroundColor(.blue)
                     }
                     .padding(.all, 5)
                     Spacer()
@@ -68,6 +96,18 @@ struct MainView: View {
     func callApi() {
         viewModel.isLoading = true
         viewModel.getPhotos(
+            callBack: {
+                viewModel.isLoading = false
+            }, failure: { error in
+                self.isShowAlert = true
+                self.errorMessage = error
+            })
+    }
+    
+    func callApiPage(page: Int) {
+        viewModel.isLoading = true
+        viewModel.getPhotosPages(
+            page: page,
             callBack: {
                 viewModel.isLoading = false
             }, failure: { error in

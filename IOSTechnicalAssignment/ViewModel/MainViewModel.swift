@@ -25,4 +25,21 @@ class MainViewModel: ObservableObject {
             }
         })
     }
+    
+    func getPhotosPages(
+        page: Int,
+        callBack: @escaping () -> Void,
+        failure: @escaping (_ error: String) -> Void)
+    {
+        Network.requestObject(request: Router.curatedPhotos(page: String(page)), type: Photos.self, completion: { result in
+            switch result {
+            case .success(let data):
+                self.photos.removeAll()
+                self.photos = data.photos
+                callBack()
+            case .failure(let error):
+                failure(error.localizedDescription)
+            }
+        })
+    }
 }
