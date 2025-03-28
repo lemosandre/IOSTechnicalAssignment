@@ -8,9 +8,10 @@ import Foundation
 
 // MARK: - Apod
 struct Photos: Codable {
-    let page, perPage: Int?
-    let photos: [Photo]?
-    let nextPage: String?
+    var page: Int = 0
+    var perPage: Int = 0
+    var photos: [Photo] = []
+    var nextPage: String = ""
 
     enum CodingKeys: String, CodingKey {
         case page

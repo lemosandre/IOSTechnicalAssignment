@@ -12,30 +12,48 @@ struct MainView: View {
     @State var isShowAlert = false
     @State var errorMessage = ""
     @State private var showingSheet = false
+    @State private var shapesPhotos: [AnyView] = []
 
     var body: some View {
         VStack {
-            CanvasView()
-                .onAppear {
-                    callApi()
+            if viewModel.isLoading {
+                ProgressView {
+                    Text("loading")
+                        .foregroundColor(.pink)
+                        .bold()
+                        .accessibilityIdentifier("loading")
                 }
-            HStack {
-                Spacer()
-                Button(action: {
-                    showingSheet.toggle()
-                }) {
-                    Image(systemName: "plus.app.fill")
-                        .resizable()
-                        .frame(width: 35, height: 35)
-                        .foregroundColor(.green)
+            } else {
+                CanvasView(shapesPhotos: $shapesPhotos)
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        showingSheet.toggle()
+                    }) {
+                        Image(systemName: "plus.app.fill")
+                            .resizable()
+                            .frame(width: 35, height: 35)
+                            .foregroundColor(.green)
+                    }
+                    .padding(.all, 5)
                 }
-                .padding(.all, 5)
+                .padding(.horizontal, 20)
             }
-            .padding(.horizontal, 20)
+        }
+        .onAppear {
+            callApi()
         }
         .sheet(isPresented: $showingSheet) {
-            SheetView()
+            SheetView(photos: viewModel.photos, shapesPhotos: $shapesPhotos)
         }
+        .alert(isPresented: $isShowAlert, content: {
+            Alert(
+                title: Text("warning.network.connection"),
+                message: Text(errorMessage),
+                dismissButton: .destructive(Text("button.try.again"), action: {
+                    callApi()
+                }))
+        })
     }
     
     func callApi() {

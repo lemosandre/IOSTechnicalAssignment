@@ -8,28 +8,24 @@ import SwiftUI
 
 struct CanvasView: View {
     
-    @State private var shapes: [AnyView] = []
+    @Binding var shapesPhotos: [AnyView]
     
     var body: some View {
         ZStack {
             Rectangle()
                 .fill(Color.black)
-            ForEach(shapes.indices, id: \.self) { shape in
-                shapes[shape]
+            ForEach(shapesPhotos.indices, id: \.self) { shape in
+                shapesPhotos[shape]
                     .draggable()
             }
         }
         .contentShape(Rectangle())
-        .onTapGesture {
-            shapes.append(AnyView(
-                Circle()
-                    .fill(Color.red)
-                    .frame(width: 50, height: 50)
-                ))
-        }
+//        .onTapGesture {
+//            shapesPhotos.append(AnyView(
+//                Circle()
+//                    .fill(Color.red)
+//                    .frame(width: 50, height: 50)
+//                ))
+//        }
     }
-}
-
-#Preview {
-    CanvasView()
 }
