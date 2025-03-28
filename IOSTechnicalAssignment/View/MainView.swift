@@ -26,6 +26,15 @@ struct MainView: View {
             } else {
                 CanvasView(shapesPhotos: $shapesPhotos)
                 HStack {
+                    Button(action: {
+                        shapesPhotos = []
+                    }) {
+                        Image(systemName: "trash.square.fill")
+                            .resizable()
+                            .frame(width: 35, height: 35)
+                            .foregroundColor(.green)
+                    }
+                    .padding(.all, 5)
                     Spacer()
                     Button(action: {
                         showingSheet.toggle()
