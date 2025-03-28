@@ -11,12 +11,31 @@ struct MainView: View {
     @ObservedObject var viewModel = MainViewModel()
     @State var isShowAlert = false
     @State var errorMessage = ""
+    @State private var showingSheet = false
 
     var body: some View {
-        CanvasView()
-            .onAppear {
-                callApi()
+        VStack {
+            CanvasView()
+                .onAppear {
+                    callApi()
+                }
+            HStack {
+                Spacer()
+                Button(action: {
+                    showingSheet.toggle()
+                }) {
+                    Image(systemName: "plus.app.fill")
+                        .resizable()
+                        .frame(width: 35, height: 35)
+                        .foregroundColor(.green)
+                }
+                .padding(.all, 5)
             }
+            .padding(.horizontal, 20)
+        }
+        .sheet(isPresented: $showingSheet) {
+            SheetView()
+        }
     }
     
     func callApi() {
