@@ -16,16 +16,9 @@ struct CanvasView: View {
                 .fill(Color.black)
             ForEach(shapesPhotos.indices, id: \.self) { shape in
                 shapesPhotos[shape]
-                    .draggable()
+                    .draggableAndScaleable()
             }
         }
         .contentShape(Rectangle())
-//        .onTapGesture {
-//            shapesPhotos.append(AnyView(
-//                Circle()
-//                    .fill(Color.red)
-//                    .frame(width: 50, height: 50)
-//                ))
-//        }
     }
 }
